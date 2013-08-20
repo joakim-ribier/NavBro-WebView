@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NavBro WebView</string>
+    <string name="github_url">https://github.com/joakim-ribier/NavBro-WebView</string>
+    
+    <string name="top_menu_left_menu">Afficher le menu de gauche</string>
+    <string name="top_menu_reload">Rafraîchir</string>
+    
+    <string name="left_menu_add">Ajouter une url</string>
+    <string name="left_menu_list">Afficher la liste</string>
+    <string name="left_menu_github">`Fork me` on GitHub</string>
+    <string name="left_menu_settings">Options de la `WebView`</string>
+    <string name="left_menu_sources">Code source de la `WebView`</string>
+    <string name="left_menu_settings_java_script_enabled">`Java Script Enabled`</string>
+    <string name="left_menu_settings_zoom_controls">`Build In Zoom Controls`</string>
+    <string name="left_menu_settings_use_wide_view_port">`Use Wide View Port`</string>
+    
+    <string name="my_dialog_title">_TITLE</string>
+    <string name="my_dialog_negative_button">Annuler</string>
+    <string name="my_dialog_positive_button">OK</string>
+    
+    <string name="save_new_url_title_dialog">Enregistrer une nouvelle url</string>
+    <string name="save_new_url_text_dialog">http:// et https:// &#8230;</string>
+    
+    <string name="list_url_title_dialog">Liste des urls enregistrées</string>
+    <string name="list_url_title_dialog_delete">Supprimer</string>
+    
+    <string name="web_source_loading">Veuillez attendre jusqu\'à la fin du chargement &#8230;</string>
+    <string name="web_source_oops">Oops &#8230;</string>
+
+</resources>
