@@ -9,6 +9,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import fr.rjoakim.android.navbro.async.DisplayWebSourceAsyncTask;
 import fr.rjoakim.android.navbro.dialog.ListUrlDialog;
+import fr.rjoakim.android.navbro.preferences.MyWebViewPreferences;
+import fr.rjoakim.android.navbro.preferences.PreferencesUtils;
 
 /**
  * 

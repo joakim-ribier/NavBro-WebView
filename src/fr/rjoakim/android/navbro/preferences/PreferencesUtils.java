@@ -1,13 +1,22 @@
-package fr.rjoakim.android.navbro;
+package fr.rjoakim.android.navbro.preferences;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import fr.rjoakim.android.navbro.NavBroActivity;
+import fr.rjoakim.android.navbro.widget.NavBroWidgetActivity;
 
 /**
  * 
@@ -39,14 +48,16 @@ public class PreferencesUtils {
 	public static final String BUILT_IN_ZOOM_CONTROLS = "BuiltInZoomControls";
 	public static final String JAVA_SCRIPT_ENABLED = "JavaScriptEnabled";
 	public static final String USE_WIDE_VIEW_PORT = "UseWideViewPort";
+	
+	public static final String _MY_URL = "_my_url";
 
 	public static String getLastUrl(Activity activity) {
 		SharedPreferences sharedPreferences = getSharePreferences(activity);
 		return sharedPreferences.getString(LAST_URL, null);
 	}
 
-	private static SharedPreferences getSharePreferences(Activity activity) {
-		return activity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+	public static SharedPreferences getSharePreferences(Context context) {
+		return context.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
 	}
 	
 	public static void setLastUrl(Activity activity, String url) {
@@ -67,8 +78,8 @@ public class PreferencesUtils {
 		edit.commit();
 	}
 	
-	public static List<String> listMyUrl(NavBroActivity navAppActivity) {
-		SharedPreferences sharedPreferences = getSharePreferences(navAppActivity);
+	public static List<String> listMyURL(Activity activity) {
+		SharedPreferences sharedPreferences = getSharePreferences(activity);
 		int count = sharedPreferences.getInt(COUNT_URL, -1);
 		List<String> myUrls = Lists.newArrayList();
 		if (count != -1) {
@@ -103,6 +114,7 @@ public class PreferencesUtils {
 	private static void copyAndInit(NavBroActivity navAppActivity) {
 		String lastUrl = getLastUrl(navAppActivity);
 		MyWebViewPreferences myWebViewPreferences = getMyWebViewPreferences(navAppActivity);
+		Map<Integer, MyWidgetPreferences> widgetsPreferences = listWidgetsPreferences(navAppActivity);
 		
 		SharedPreferences sharedPreferences = getSharePreferences(navAppActivity);
 		Editor edit = sharedPreferences.edit();
@@ -114,7 +126,27 @@ public class PreferencesUtils {
 		edit.putBoolean(JAVA_SCRIPT_ENABLED, myWebViewPreferences.isJavaScriptEnabled());
 		edit.putBoolean(USE_WIDE_VIEW_PORT, myWebViewPreferences.isUseWideViewPort());
 		
+		for (Entry<Integer, MyWidgetPreferences> entry: widgetsPreferences.entrySet()) {
+			edit.putString(String.valueOf(entry.getKey()), entry.getValue().getTitleURL());
+			edit.putString(String.valueOf(entry.getKey()) + _MY_URL, entry.getValue().getURL());
+		}
+		
 		edit.commit();
+	}
+
+	private static Map<Integer, MyWidgetPreferences> listWidgetsPreferences(NavBroActivity navAppActivity) {
+		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(navAppActivity);
+		int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+				new ComponentName(navAppActivity, NavBroWidgetActivity.class));
+		
+		Map<Integer, MyWidgetPreferences> widgetsPreferences = Maps.newHashMap();
+		for (int app: appWidgetIds) {
+			MyWidgetPreferences widgetPreferences =
+					getWidgetPreferences(navAppActivity, app);
+			
+			widgetsPreferences.put(app, widgetPreferences);
+		}
+		return widgetsPreferences;
 	}
 	
 	public static MyWebViewPreferences getMyWebViewPreferences(NavBroActivity navAppActivity) {
@@ -138,5 +170,25 @@ public class PreferencesUtils {
 		edit.commit();
 		
 		return getMyWebViewPreferences(navAppActivity);
+	}
+	
+	public static void setWidgetPreferences(Activity activity, int mAppWidgetId, String titleURL, String URL) {
+		SharedPreferences sharePreferences = getSharePreferences(activity);
+		if (!sharePreferences.contains(String.valueOf(mAppWidgetId))) {
+			Editor edit = sharePreferences.edit();
+			edit.putString(String.valueOf(mAppWidgetId), titleURL);
+			edit.putString(String.valueOf(mAppWidgetId) + _MY_URL, URL);
+			edit.commit();
+		}
+	}
+	
+	public static MyWidgetPreferences getWidgetPreferences(Context context, int mAppWidgetId) {
+		SharedPreferences sharePreferences = getSharePreferences(context);
+		String titleURL = sharePreferences.getString(String.valueOf(mAppWidgetId), null);
+		String URL = sharePreferences.getString(String.valueOf(mAppWidgetId) + _MY_URL, null);
+		if (Strings.isNullOrEmpty(titleURL) || Strings.isNullOrEmpty(URL)) {
+			return null;
+		}
+		return new MyWidgetPreferences(titleURL, URL);
 	}
 }

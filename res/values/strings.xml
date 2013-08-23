@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_widget_name">NavBro WebView</string>
+    <string name="app_widget_title">Widget configuration</string>
+    <string name="app_widget_add_button">Create the widget</string>
+	<string name="app_widget_cancel_button">Cancel</string>
+	<string name="app_widget_url_title">Title widget:</string>
+	<string name="app_widget_message_add_missing_url">Select an URL before to create the widget.</string>
+	
     <string name="app_name">NavBro WebView</string>
     <string name="github_url">https://github.com/joakim-ribier/NavBro-WebView</string>
     

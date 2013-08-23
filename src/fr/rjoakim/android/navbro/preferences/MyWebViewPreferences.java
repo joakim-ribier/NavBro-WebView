@@ -1,4 +1,6 @@
-package fr.rjoakim.android.navbro;
+package fr.rjoakim.android.navbro.preferences;
+
+import com.google.common.base.Objects;
 
 /**
  * 
@@ -44,5 +46,30 @@ public class MyWebViewPreferences {
 
 	public boolean isUseWideViewPort() {
 		return useWideViewPort;
+	}
+
+	@Override
+	public int hashCode(){
+		return Objects.hashCode(javaScriptEnabled, builtInZoomControls, useWideViewPort);
+	}
+	
+	@Override
+	public boolean equals(Object object){
+		if (object instanceof MyWebViewPreferences) {
+			MyWebViewPreferences that = (MyWebViewPreferences) object;
+			return Objects.equal(this.javaScriptEnabled, that.javaScriptEnabled)
+				&& Objects.equal(this.builtInZoomControls, that.builtInZoomControls)
+				&& Objects.equal(this.useWideViewPort, that.useWideViewPort);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this)
+			.add("javaScriptEnabled", javaScriptEnabled)
+			.add("builtInZoomControls", builtInZoomControls)
+			.add("useWideViewPort", useWideViewPort)
+			.toString();
 	}
 }

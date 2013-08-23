@@ -3,13 +3,19 @@ package fr.rjoakim.android.navbro;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ViewAnimator;
+
+import com.google.common.base.Strings;
+
 import fr.rjoakim.android.navbro.dialog.SaveNewUrlDialog;
+import fr.rjoakim.android.navbro.preferences.PreferencesUtils;
+import fr.rjoakim.android.navbro.widget.NavBroWidgetConfigurationActivity;
 
 /**
  * 
@@ -60,6 +66,12 @@ public class NavBroActivity extends Activity {
 		viewAnimator.addView(
 				getLayoutInflater().inflate(R.layout.web_source, null));
 		
+		if(!startActivityFromWidget(getIntent())){
+			startActivity();
+		}
+	}
+
+	private void startActivity() {
 		String loadUrl = PreferencesUtils.getLastUrl(this);
 		if (loadUrl == null) {
 			displaySaveNewUrlDialog(myWebView);
@@ -112,5 +124,26 @@ public class NavBroActivity extends Activity {
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		startActivityFromWidget(intent);
+	}
+
+	private boolean startActivityFromWidget(Intent intent) {
+		if (intent.getAction().equals(
+				NavBroWidgetConfigurationActivity.LAUNCH_WEB_VIEW_WITH_URL)) {
+			
+			String URL = intent.getStringExtra(
+					NavBroWidgetConfigurationActivity.WIDGET_KEY_URL);
+			if (!Strings.isNullOrEmpty(URL)) {
+				myMenu.showContent(WEB_VIEW_INDEX);
+				myWebView.loadUrl(URL);
+				return true;
+			}
+		}
+		return false;
 	}
 }

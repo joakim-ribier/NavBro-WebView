@@ -1,5 +1,7 @@
 package fr.rjoakim.android.navbro;
 
+import fr.rjoakim.android.navbro.preferences.MyWebViewPreferences;
+import fr.rjoakim.android.navbro.preferences.PreferencesUtils;
 import android.annotation.SuppressLint;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;

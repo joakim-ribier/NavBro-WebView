@@ -14,8 +14,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import fr.rjoakim.android.navbro.NavBroActivity;
-import fr.rjoakim.android.navbro.PreferencesUtils;
 import fr.rjoakim.android.navbro.R;
+import fr.rjoakim.android.navbro.preferences.PreferencesUtils;
 
 /**
  * 
@@ -48,7 +48,7 @@ public abstract class ListUrlDialog extends MyDialog<String> {
 		
 		setTextOnPositiveButton(getString(R.string.list_url_title_dialog_delete));
 		
-		List<String> preferencesUrls = PreferencesUtils.listMyUrl(navAppActivity);
+		List<String> preferencesUrls = PreferencesUtils.listMyURL(navAppActivity);
 		initUrlWidgets(preferencesUrls, (LinearLayout)view);
 	}
 	
