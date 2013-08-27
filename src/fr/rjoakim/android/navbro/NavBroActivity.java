@@ -2,7 +2,6 @@ package fr.rjoakim.android.navbro;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +36,7 @@ import fr.rjoakim.android.navbro.widget.NavBroWidgetConfigurationActivity;
  * limitations under the License.
  * 
  */
-public class NavBroActivity extends Activity {
+public class NavBroActivity extends MyActivity {
 
 	public final static int WEB_VIEW_INDEX = 0;
 	public final static int WEB_SOURCE_INDEX = 1;
