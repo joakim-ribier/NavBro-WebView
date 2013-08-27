@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="HardcodedText" severity="error" />
+    <issue id="Overdraw" severity="informational" />
+    <issue id="Registered" severity="informational" />
+</lint>
